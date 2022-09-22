@@ -1,0 +1,116 @@
+﻿@model IEnumerable<MajorProject.Models.Company>
+@using Microsoft.AspNetCore.Identity
+@using MajorProject.Models.Enums
+
+@*----- to find if user is logged in *@
+@inject SignInManager<IdentityUser> _signInManager
+
+@*----- gets the user object to see properties, roles *@
+@inject UserManager<IdentityUser> _userManager
+
+@{
+    bool isLoggedIn = _signInManager.IsSignedIn(this.User);
+
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);         // gets the Logged In User
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
+    }
+}
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if(isUserAdmin){
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+@*<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                Image Logo
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                <img src="@item.CompanyImage" class="img-thumbnail" width="100" height="100">
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CompanyId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CompanyId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>*@
+
+@*<div class="row">
+@foreach (var item in Model)
+    {
+    <div class="card-columns">
+
+        <div class="container row">
+
+            <div class="card" style="width:400px">
+                <img class="card-img-top" src="@item.CompanyImage" alt="Card image" width="200" height="200">
+                <div class="card-body col-6">
+                    <h4 class="card-title">@item.CompanyName</h4>
+                        @if (isUserAdmin)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.CompanyId">Edit |</a> 
+                            <a asp-action="Details" asp-route-id="@item.CompanyId">Details |</a> 
+                            <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
+                   
+
+                           
+                        }
+                             <a asp-area="BikePortal" asp-controller="Bikes"
+                       asp-action="GetBikesOfCompany"
+                       asp-route-filterCompanyId="@item.CompanyId">See Bikes</a>
+                </div>
+                
+            </div>
+                <div class="Col-6">
+                    @item.CompanyName
+                </div>
+        </div>
+        <br />
+    </div>
+ }
+</div>*@
+
+@foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-6">
+                <img class="card-img-top" src="@item.CompanyImage" alt="Card image" width="200" height="200">
+            </div>
+              
+            <div class="col-6">
+            <b> @item.CompanyName</b>
+            Royal Enfield was a brand name under which The Enfield Cycle Company Limited of Redditch, Worcestershire[1] sold motorcycles, bicycles, lawnmowers and stationary engines which they had manufactured. Enfield Cycle Company also used the brand name "Enfield" without the "Royal".
+
+            The first Royal Enfield motorcycle was built in 1901. The Enfield Cycle Company is responsible for the design and original production of the Royal Enfield Bullet, the longest-lived motorcycle design in history.
+            Royal Enfield was a brand name under which The Enfield Cycle Company Limited of Redditch, Worcestershire[1] sold motorcycles, bicycles, lawnmowers and stationary engines which they had manufactured. Enfield Cycle Company also used the brand name "Enfield" without the "Royal".
+
+            The first Royal Enfield motorcycle was built in 1901. The Enfield Cycle Company is responsible for the design and original production of the Royal Enfield Bullet, the longest-lived motorcycle design in history.
+        </div>
+        </div>
+        <hr/>
+    }

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<MajorProject.Models.Rent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bike)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bike.BikeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RentId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RentId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RentId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
