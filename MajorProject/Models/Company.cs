@@ -14,10 +14,12 @@ namespace MajorProject.Models
 
         [Required]
         [Display(Name ="Company Name")]
-        [StringLength(10,ErrorMessage =" {0} Cannot be empty")]
+        [StringLength(50)]
         public string CompanyName { get; set; }
 
-
+        [Required]
+        [StringLength(2000)]
+        public string CompanyDescription { get; set; }
         public string CompanyImage { get; set; }
 
         [Required]

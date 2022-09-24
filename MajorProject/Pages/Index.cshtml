@@ -1,8 +1,24 @@
 ﻿@page
 @model IndexModel
+@using MajorProject.Models;
+@using MajorProject.Data;
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 @{
     ViewData["Title"] = "Home page";
 }
+<style>
+    body{
+        background-color: ghostwhite ;
+    
+        carousel-inner img
+
+    {
+        width: 100%;
+        height: 100%;
+    }
+</style>
 
 <div class="Container-sm">
     <div id="demo" class="carousel slide" data-bs-ride="carousel">
@@ -37,5 +53,73 @@
     </div>
    
 </div>
+<br>
+<br>
+
+
+<div class="container">
+    <h3><b>Offers</b></h3>
+    <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Bikes"
+       asp-action="Index">More Offers</a>
+    <div class="row gy-3 my-3">
+        <div class="col-md-4" >
+            <div class="card" style="width:18rem;">
+                <img class="card-img-top" src="lib/Hero1.jpg" alt="Card image" width="100" height="200">
+                <div class="card-body">
+                    <h4 class="card-title">Hero Xtreme 160R</h4>
+                    <p class="card-text"><b>Offer till september.</b></p>
+                    <p>Original Price : <strike><b>175000</b></strike></p>
+                    <p>Discounted Price : <b>120000</b></p>
+                    <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Bikes"
+                       asp-action="Offer"
+                       asp-route-filterBikeName="Hero Xtreme 160R">Book To Buy</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="width:18rem;">
+                <img class="card-img-top" src="Bikes\Photo\362553c7-8c1f-401d-b3a5-c316220acb5b_Bajaj1.jpg" alt="Card image" width="100" height="200">
+                <div class="card-body">
+                    <h4 class="card-title">Bajaj Dominar 400 (Aurora Green)</h4>
+                    <p class="card-text"><b>Offer till september.</b></p>
+                    <p>Original Price : <strike><b>250000</b></strike></p>
+                    <p>Discounted Price : <b>216000</b></p>
+                    <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Bikes"
+                       asp-action="Offer"
+                       asp-route-filterBikeName="Bajaj Dominar 400 (Aurora Green)">Book To Buy</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="width:18rem;">
+                <img class="card-img-top" src="Bikes\Photo\7fb70c56-61ac-43ae-871d-c1bbf148fb10_TVs2.jpg" alt="Card image" width="100" height="200">
+                <div class="card-body">
+                    <h4 class="card-title">TVS Raider</h4>
+                    <p class="card-text"><b>Offer till september.</b></p>
+                    <p>Original Price : <strike><b>125000</b></strike></p>
+                    <p>Discounted Price : <b>90000</b></p>
+                    <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Bikes"
+                       asp-action="Offer"
+                       asp-route-filterBikeName="TVS Raider">Book To Buy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+<br />
+<br />
+<br />
+
+
+<div class="container-fluid">
+    <h3><b>Upcoming Events</b></h3>
+    <a class="btn btn-danger" asp-area="BikePortal" asp-controller="UpcomingEvents"
+       asp-action="Index">More Events</a>
+    <img src="Events\Photo\257da511-1612-4d8b-add8-9bfabeef5b64_Event1.jpg" alt="Los Angeles" width="600" height="400" class="d-block w-100">
+    <br />
+    <br />
+</div>
+
 
 

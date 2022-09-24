@@ -1,0 +1,72 @@
+﻿@model MajorProject.Models.Service
+@using Microsoft.AspNetCore.Identity
+@using MajorProject.Models.Enums
+
+@*----- to find if user is logged in *@
+@inject SignInManager<IdentityUser> _signInManager
+
+@*----- gets the user object to see properties, roles *@
+@inject UserManager<IdentityUser> _userManager
+
+@{
+    bool isLoggedIn = _signInManager.IsSignedIn(this.User);
+
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);         // gets the Logged In User
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
+    }
+}
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Service</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label"></label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerPhone" class="control-label"></label>
+                <input asp-for="CustomerPhone" class="form-control" />
+                <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BikeNumber" class="control-label"></label>
+                <input asp-for="BikeNumber" class="form-control" />
+                <span asp-validation-for="BikeNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServiceOn" class="control-label"></label>
+                <input asp-for="ServiceOn" class="form-control" />
+                <span asp-validation-for="ServiceOn" class="text-danger"></span>
+            </div>
+            @if (isUserAdmin)
+            {
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
+                    </label>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

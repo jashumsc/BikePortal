@@ -31,6 +31,15 @@ namespace MajorProject.Areas.BikePortal.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> Offer(string filterBikeName)
+        {
+            var viewmodel = await _context.Bikes
+                                         .Where(b => b.BikeName == filterBikeName)
+                                         .ToListAsync();
+
+            return View(viewName: "Index", model: viewmodel);
+        }
+
         public async Task<IActionResult> GetBikesOfCompany(int filterCompanyId)
         {
             var viewmodel = await _context.Bikes

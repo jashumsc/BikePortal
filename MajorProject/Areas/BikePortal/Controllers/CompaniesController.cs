@@ -60,7 +60,7 @@ namespace MajorProject.Areas.BikePortal.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,CompanyPhoto")] Company company)
+        public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,CompanyPhoto,CompanyDescription")] Company company)
         {
             if (ModelState.IsValid)
             {

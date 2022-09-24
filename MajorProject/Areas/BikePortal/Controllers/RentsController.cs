@@ -27,6 +27,17 @@ namespace MajorProject.Areas.BikePortal.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> GetPurchases(string filterPhn)
+        {
+           
+            var viewmodel = await _context.Rents
+                                          .Where(r => r.CustomerPhone == filterPhn)
+                                          .Include(r => r.Bike)
+                                          .ToListAsync();
+
+            return View(viewName: "Index", model: viewmodel);
+        }
+
         // GET: BikePortal/Rents/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -58,7 +69,7 @@ namespace MajorProject.Areas.BikePortal.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RentId,CustomerName,BikeId,RentDate")] Rent rent)
+        public async Task<IActionResult> Create([Bind("RentId,CustomerName,BikeId,RentDate,CustomerPhone")] Rent rent)
         {
             if(rent != null)
             {

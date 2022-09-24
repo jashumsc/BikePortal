@@ -23,7 +23,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Bikes</h1>
 
  @if(isUserAdmin){ 
     <p>
@@ -89,7 +89,7 @@
 *@
 
 
-@foreach (var item in Model)
+@*@foreach (var item in Model)
     {
         <div class="container-sm">
    
@@ -117,5 +117,70 @@
             </div>
         </div>
         <br />
-    }
+    }*@
 
+
+@*@foreach (var item in Model)
+    {
+        <div class="row border-dark">
+            <div class="col-4 text-center border-0">
+                <h4>@item.BikeName</h4>
+                <h5> To purchase : @item.BikePrice.00</h5>
+                <h5> To Rent : @item.RentPrice.00 /Day</h5>
+                @if (isUserAdmin)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.BikeId">Edit |</a>
+                    <a asp-action="Details" asp-route-id="@item.BikeId">Details |</a>
+                    <a asp-action="Delete" asp-route-id="@item.BikeId">Delete</a>
+                }
+                <br>
+                        <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Purchases"
+                       asp-action="Create"
+                       asp-route-filterBikeId="@item.BikeId">Book To Buy</a>
+
+                        <a class="btn btn-warning" asp-area="BikePortal" asp-controller="Rents"
+                       asp-action="Create"
+                       asp-route-filterBikeId="@item.BikeId">Book To Rent</a>
+            </div>
+
+            <div class ="col-4">
+            <img class="card-img-top" src="@item.BikeImage" alt="Card image" width="50" height="200">
+
+            </div>
+        </div>
+    <hr>
+    }
+*@
+
+
+<div class="container">
+    <div class="row gy-3 my-3">
+        @foreach (var item in Model)
+        {
+        <div class="col-md-4">
+            <div class="card" style="width:18rem;">
+                    <img class="card-img-top" src="@item.BikeImage" alt="Card image" width="50" height="200">
+                <div class="card-body">
+                    <h4 class="card-title">@item.BikeName</h4>
+                        <h5> To purchase : @item.BikePrice.00</h5>
+                        <h5> To Rent : @item.RentPrice.00 /Day</h5>
+                         <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Purchases"
+                       asp-action="Create"
+                       asp-route-filterBikeId="@item.BikeId">Book To Buy</a>
+                        <a class="btn btn-warning" asp-area="BikePortal" asp-controller="Rents"
+                       asp-action="Create"
+                       asp-route-filterBikeId="@item.BikeId">Book To Rent</a>
+                        @if (isUserAdmin)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.BikeId">Edit |</a>
+                            <a asp-action="Details" asp-route-id="@item.BikeId">Details |</a>
+                            <a asp-action="Delete" asp-route-id="@item.BikeId">Delete</a>
+                        }
+                </div>
+            </div>
+        </div>
+        
+        }
+    </div>
+    <br />
+</div>

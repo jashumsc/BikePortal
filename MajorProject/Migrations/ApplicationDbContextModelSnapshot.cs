@@ -53,6 +53,35 @@ namespace MajorProject.Migrations
                     b.ToTable("Bikes");
                 });
 
+            modelBuilder.Entity("MajorProject.Models.BuyProduct", b =>
+                {
+                    b.Property<int>("BuyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("CustomerPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProcudtId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("BuyId");
+
+                    b.HasIndex("ProcudtId");
+
+                    b.ToTable("BuyProducts");
+                });
+
             modelBuilder.Entity("MajorProject.Models.Company", b =>
                 {
                     b.Property<int>("CompanyId")
@@ -60,17 +89,71 @@ namespace MajorProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CompanyDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
+
                     b.Property<string>("CompanyImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("CompanyId");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("MajorProject.Models.Offer", b =>
+                {
+                    b.Property<int>("OfferId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BikeImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BikeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("BikePrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OfferPrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("OfferId");
+
+                    b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("MajorProject.Models.Product", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ProductImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("ProductPrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MajorProject.Models.Purchase", b =>
@@ -84,6 +167,11 @@ namespace MajorProject.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerPhone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
@@ -94,6 +182,32 @@ namespace MajorProject.Migrations
                     b.HasIndex("BikeId");
 
                     b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("MajorProject.Models.RegisterEvent", b =>
+                {
+                    b.Property<int>("ParticipateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ParticipateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ParticipateId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("EventParticipants");
                 });
 
             modelBuilder.Entity("MajorProject.Models.Rent", b =>
@@ -107,6 +221,11 @@ namespace MajorProject.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerPhone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RentDate")
@@ -117,6 +236,66 @@ namespace MajorProject.Migrations
                     b.HasIndex("BikeId");
 
                     b.ToTable("Rents");
+                });
+
+            modelBuilder.Entity("MajorProject.Models.Service", b =>
+                {
+                    b.Property<int>("ServiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BikeNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("CustomerPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceOn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ServiceId");
+
+                    b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("MajorProject.Models.UpcomingEvent", b =>
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EventDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("EventImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("UpcomingEvents");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -324,11 +503,29 @@ namespace MajorProject.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MajorProject.Models.BuyProduct", b =>
+                {
+                    b.HasOne("MajorProject.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProcudtId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MajorProject.Models.Purchase", b =>
                 {
                     b.HasOne("MajorProject.Models.Bike", "Bike")
                         .WithMany()
                         .HasForeignKey("BikeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MajorProject.Models.RegisterEvent", b =>
+                {
+                    b.HasOne("MajorProject.Models.UpcomingEvent", "UpcomingEvent")
+                        .WithMany()
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

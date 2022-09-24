@@ -16,7 +16,15 @@
     {
         isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
     }
+
+    bool isUserCustomer = false;
+   
+    if (user != null)
+    {
+        isUserCustomer = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalUser.ToString());
+    }
 }
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,36 +68,78 @@
                                             <a class="dropdown-item"
                                            asp-area="Bikeportal" asp-controller="Bikes" asp-action="Index">Bikes</a>
                                    
-                                   
+                                            <a class="dropdown-item"
+                                             asp-area="Bikeportal" asp-controller="Offers" asp-action="Index">Offers</a>
+
+                                             <a class="dropdown-item"
+                                             asp-area="Bikeportal" asp-controller="Products" asp-action="Index">products</a>
+
+                                             <a class="dropdown-item"
+                                             asp-area="Bikeportal" asp-controller="UpcomingEvents" asp-action="Index">Planned Events</a>
+
+                                              <a class="dropdown-item"
+                                             asp-area="Bikeportal" asp-controller="Services" asp-action="Index">Services </a>
                                      </div>
                                 </li>
                             }
                         }
                         @if (isLoggedIn)
                         {
+                            @if(!isUserAdmin){
+                            <li class="nav-item dropdown">
+                                    <a class="nav-link "  asp-area="Bikeportal" asp-controller="Companies" asp-action="Index">
+                                    Top Brands</a>
+                                    
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                                    Customer
+                                    Purchase
                                 </a>
-
                                 <div class="dropdown-menu">
-
-                                    <a class="dropdown-item"
-                                   asp-area="Bikeportal" asp-controller="Companies" asp-action="Index">Companies</a>
-
-                                    <a class="dropdown-item"
+                                        <a class="dropdown-item"
                                    asp-area="Bikeportal" asp-controller="Bikes" asp-action="Index">Bikes</a>
 
-
+                                        <a class="dropdown-item"
+                                   asp-area="Bikeportal" asp-controller="Products" asp-action="Index">Spare Parts</a>
                                 </div>
                             </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Services
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                        asp-area="Bikeportal" asp-controller="Services" asp-action="Create">Service your Bike</a>
+
+                                        <a class="dropdown-item"
+                                   asp-area="Bikeportal" asp-controller="UpcomingEvents" asp-action="Index">Upcoming Events</a>
+
+                                    </div>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Ordered Details
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                            asp-area="Bikeportal" asp-controller="Purchases" asp-action="GetPurchases" asp-route-filterPhn="@user.PhoneNumber">Purchase Details</a>
+
+                                        <a class="dropdown-item"
+                                             asp-area="Bikeportal" asp-controller="Rents" asp-action="GetPurchases" asp-route-filterPhn="@user.PhoneNumber">Rent Details</a>
+
+                                        <a class="dropdown-item"
+                                         asp-area="Bikeportal" asp-controller="BuyProducts" asp-action="GetProducts" asp-route-filterPhn="@user.PhoneNumber">Products order Details</a>
+
+                                          <a class="dropdown-item"
+                                         asp-area="Bikeportal" asp-controller="Services" asp-action="Index" asp-route-filterPhn="@user.PhoneNumber">Service status</a>
+
+                                    </div>
+                                </li>
                         }
-                        <li class="nav-item justify-content-end">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item justify-content-end">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">About</a>
-                        </li>
+                        }
+                      
                        
                     </ul>
                    
@@ -105,14 +155,17 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="border-top footer bg-warning text-muted">
+        <div class="container-sm">
             &copy; 2022 - MajorProject - <a asp-area="" asp-page="/Privacy">Privacy</a>
+
         </div>
+        
+        
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>zz
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)

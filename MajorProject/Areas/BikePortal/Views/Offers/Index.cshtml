@@ -1,0 +1,107 @@
+﻿@model IEnumerable<MajorProject.Models.Offer>
+@using Microsoft.AspNetCore.Identity
+@using MajorProject.Models.Enums
+@*----- to find if user is logged in *@
+@inject SignInManager<IdentityUser> _signInManager
+
+@*----- gets the user object to see properties, roles *@
+@inject UserManager<IdentityUser> _userManager
+
+@{
+    bool isLoggedIn = _signInManager.IsSignedIn(this.User);
+
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);         // gets the Logged In User
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
+    }
+}
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@*<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BikeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BikePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfferPrice)
+            </th>
+            <th>
+                BikeImage
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BikeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BikePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfferPrice)
+            </td>
+            <td>
+                    <img src="@item.BikeImage" alt="Card image" width="200" height="200">
+
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OfferId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OfferId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OfferId">Delete</a> |
+                <a asp-area="BikePortal" asp-controller="Purchases" asp-action="Create" asp-route-filterBikeName="@item.BikeName">Buy Now</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>*@
+
+
+<div class="container">
+    <div class="row gy-3 my-3">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="card" style="width:18rem;">
+                    <img class="card-img-top" src="@item.BikeImage" alt="Card image" width="50" height="200">
+                    <div class="card-body">
+                        <h4 class="card-title">@item.BikeName</h4>
+                        <h5> Original Price : @item.BikePrice.00</h5>
+                        <h5> Offer Price : @item.OfferPrice.00 /Day</h5>
+                        <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Bikes"
+                       asp-action="Offer"
+                       asp-route-filterBikeName="Hero Xtreme 160R">
+                            Book To Buy
+                        </a>
+                       
+                        @if (isUserAdmin)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.OfferId">Edit</a>
+ 
+                            <a asp-action = "Details" asp-route-id = "@item.OfferId" > Details </a> 
+                            <a asp-action = "Delete" asp-route-id = "@item.OfferId" > Delete </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+    <br />
+</div>

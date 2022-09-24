@@ -45,6 +45,9 @@
             <th>
                 Bike Price
             </th>
+            <th>
+                Phone Number
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -63,7 +66,9 @@
             <td>
                 @item.Bike.BikePrice
             </td>
-               
+            <td>
+                    @item.CustomerPhone
+            </td>
 
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PurchaseId">Edit</a> |

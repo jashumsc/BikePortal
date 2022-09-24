@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MajorProject.Data;
 using MajorProject.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Net.NetworkInformation;
+
+
+
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
@@ -25,6 +30,17 @@ namespace MajorProject.Areas.BikePortal.Controllers
         {
             var applicationDbContext = _context.Purchases.Include(p => p.Bike);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> GetPurchases(string filterPhn)
+        {
+            
+            var viewmodel = await _context.Purchases
+                                          .Where(p => p.CustomerPhone == filterPhn)
+                                          .Include(p => p.Bike)
+                                          .ToListAsync();
+
+            return View(viewName: "Index", model: viewmodel);
         }
 
         // GET: BikePortal/Purchases/Details/5
@@ -58,16 +74,27 @@ namespace MajorProject.Areas.BikePortal.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PurchaseId,CustomerName,BikeId,Date")] Purchase purchase)
+        public async Task<IActionResult> Create([Bind("PurchaseId,CustomerName,BikeId,Date,CustomerPhone")] Purchase purchase)
         {
-            if (ModelState.IsValid)
+            if (purchase != null)
             {
-                _context.Add(purchase);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(purchase);
+                    await _context.SaveChangesAsync();
+                    //return RedirectToAction(nameof(Index));
+                    return RedirectToAction(
+               actionName: "Index",
+               controllerName: "Companies",
+               routeValues: new { area = "BikePortal" });
+                }
+                ViewData["BikeId"] = new SelectList(_context.Bikes, "BikeId", "BikeName", purchase.BikeId);
+                return View(purchase);
             }
-            ViewData["BikeId"] = new SelectList(_context.Bikes, "BikeId", "BikeName", purchase.BikeId);
-            return View(purchase);
+                return RedirectToAction(
+               actionName: "Index",
+               controllerName: "Companies",
+               routeValues: new { area = "BikePortal" });
         }
 
         // GET: BikePortal/Purchases/Edit/5

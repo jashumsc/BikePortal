@@ -21,5 +21,17 @@ namespace MajorProject.Data
 
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Rent> Rents { get; set; }
+
+        public DbSet<Offer> Offers { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<BuyProduct> BuyProducts { get; set; }
+
+        public DbSet<UpcomingEvent> UpcomingEvents { get; set; }
+
+
+        public DbSet<RegisterEvent> EventParticipants { get; set; }
+
     }
 }

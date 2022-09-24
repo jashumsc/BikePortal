@@ -1,0 +1,141 @@
+﻿@model IEnumerable<MajorProject.Models.UpcomingEvent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@using Microsoft.AspNetCore.Identity
+@using MajorProject.Models.Enums
+@*----- to find if user is logged in *@
+@inject SignInManager<IdentityUser> _signInManager
+
+@*----- gets the user object to see properties, roles *@
+@inject UserManager<IdentityUser> _userManager
+
+@{
+    bool isLoggedIn = _signInManager.IsSignedIn(this.User);
+
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);         // gets the Logged In User
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
+    }
+}
+<h1>Index</h1>
+
+  @if (isUserAdmin)
+            {
+                <p>
+                    <a asp-action="Create">Create New</a>
+                </p>
+            }
+<style>
+    .container {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    /* Bottom left text */
+    .bottom-left {
+        position: absolute;
+        bottom: 8px;
+        left: 16px;
+    }
+
+    /* Top left text */
+    .top-left {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+    }
+
+    /* Top right text */
+    .top-right {
+        position: absolute;
+        top: 8px;
+        right: 16px;
+    }
+
+    /* Bottom right text */
+    .bottom-right {
+        position: absolute;
+        bottom: 8px;
+        right: 16px;
+    }
+
+    /* Centered text */
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+@*<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDate)
+            </th>
+            <th>
+                Event Poster
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDate)
+            </td>
+            <td>
+                            <img  src="@item.EventImage" alt="Card image" width="200" height="200">
+
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
+                <a asp-area="BikePortal" asp-controller="RegisterEvents" asp-action="Create" asp-route-filterEventId="@item.EventId">Register Now</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>*@
+
+@foreach (var item in Model) 
+{
+    <div class="container">
+        <img src="@item.EventImage" alt="Snow" style="width:100%;">
+        <div class="bottom-left"><b>@item.EventName</b></div>
+        <div class="top-left"><b>@item.EventDescription</b></div>
+        <div class="top-right"><b>@item.EventDate</b></div>
+        <div class="bottom-right">
+            @if (isUserAdmin)
+            {
+                <b>
+                    <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
+                </b>
+            }
+        </div>
+    </div>
+    <br />
+}

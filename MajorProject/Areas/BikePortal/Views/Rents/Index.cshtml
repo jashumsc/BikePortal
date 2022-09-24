@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.RentDate)
             </th>
+            <th>
+                Phone Number
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,6 +39,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.RentDate)
             </td>
+                <td>
+                    @item.CustomerPhone
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RentId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.RentId">Details</a> |

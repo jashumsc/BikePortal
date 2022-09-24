@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MajorProject.Models.Service>
+@using Microsoft.AspNetCore.Identity
+@using MajorProject.Models.Enums
+@{
+    ViewData["Title"] = "Index";
+}
+@*----- to find if user is logged in *@
+@inject SignInManager<IdentityUser> _signInManager
+
+@*----- gets the user object to see properties, roles *@
+@inject UserManager<IdentityUser> _userManager
+
+@{
+    bool isLoggedIn = _signInManager.IsSignedIn(this.User);
+
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);         // gets the Logged In User
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
+    }
+}
+
+<h1>Index</h1>
+ @if (isUserAdmin)
+ {
+                <p>
+                    <a asp-action="Create">Create New</a>
+                </p>
+ }
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BikeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BikeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+                @if(item.Status){
+                        <p> Service Of @item.BikeNumber is Done</p>
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ServiceId">Update Status</a> |
+                <a asp-action="Details" asp-route-id="@item.ServiceId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ServiceId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

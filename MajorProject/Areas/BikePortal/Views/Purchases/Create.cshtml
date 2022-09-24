@@ -1,5 +1,23 @@
 ﻿@model MajorProject.Models.Purchase
+@using Microsoft.AspNetCore.Identity
+@using MajorProject.Models.Enums
 
+@*----- to find if user is logged in *@
+@inject SignInManager<IdentityUser> _signInManager
+
+@*----- gets the user object to see properties, roles *@
+@inject UserManager<IdentityUser> _userManager
+
+@{
+    bool isLoggedIn = _signInManager.IsSignedIn(this.User);
+
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);         // gets the Logged In User
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
+    }
+}
 @{
     ViewData["Title"] = "Create";
 }
@@ -18,6 +36,11 @@
                 <span asp-validation-for="CustomerName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="CustomerPhone" class="control-label"></label>
+                <input asp-for="CustomerPhone" class="form-control" />
+                <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="BikeId" class="control-label"></label>
                 <select asp- asp-for="BikeId" class ="form-control" asp-items="ViewBag.BikeId" ></select>
             </div>
@@ -33,10 +56,12 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@if (isUserAdmin)
+{
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

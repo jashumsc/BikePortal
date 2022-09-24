@@ -99,18 +99,25 @@
     {
         <div class="row">
             <div class="col-6">
-                <img class="card-img-top" src="@item.CompanyImage" alt="Card image" width="200" height="200">
+                <img class="card-img-top" src="@item.CompanyImage" alt="Card image" width="50" height="200">
             </div>
               
             <div class="col-6">
             <b> @item.CompanyName</b>
-            Royal Enfield was a brand name under which The Enfield Cycle Company Limited of Redditch, Worcestershire[1] sold motorcycles, bicycles, lawnmowers and stationary engines which they had manufactured. Enfield Cycle Company also used the brand name "Enfield" without the "Royal".
+            <p>@item.CompanyDescription</p>
+            @if (isUserAdmin)
+            {
+                <a asp-action="Edit" asp-route-id="@item.CompanyId">Edit |</a>
+                <a asp-action="Details" asp-route-id="@item.CompanyId">Details |</a>
+                <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
 
-            The first Royal Enfield motorcycle was built in 1901. The Enfield Cycle Company is responsible for the design and original production of the Royal Enfield Bullet, the longest-lived motorcycle design in history.
-            Royal Enfield was a brand name under which The Enfield Cycle Company Limited of Redditch, Worcestershire[1] sold motorcycles, bicycles, lawnmowers and stationary engines which they had manufactured. Enfield Cycle Company also used the brand name "Enfield" without the "Royal".
 
-            The first Royal Enfield motorcycle was built in 1901. The Enfield Cycle Company is responsible for the design and original production of the Royal Enfield Bullet, the longest-lived motorcycle design in history.
-        </div>
+
+            }
+            <a class="btn btn-sm" asp-area="BikePortal" asp-controller="Bikes"
+           asp-action="GetBikesOfCompany"
+           asp-route-filterCompanyId="@item.CompanyId">See Bikes</a>
+            </div>
         </div>
         <hr/>
     }

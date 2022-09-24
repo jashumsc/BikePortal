@@ -12,6 +12,14 @@
     <Compile Remove="Migrations\20220921155405_AddedPurchase.Designer.cs" />
     <Compile Remove="Migrations\20220922001430_AddedRentModel.cs" />
     <Compile Remove="Migrations\20220922001430_AddedRentModel.Designer.cs" />
+    <Compile Remove="Migrations\20220922151629_AddedProducts.cs" />
+    <Compile Remove="Migrations\20220922151629_AddedProducts.Designer.cs" />
+    <Compile Remove="Migrations\20220922151757_AddedProducts.cs" />
+    <Compile Remove="Migrations\20220922151757_AddedProducts.Designer.cs" />
+    <Compile Remove="Migrations\20220923073804_AddedFunction.cs" />
+    <Compile Remove="Migrations\20220923073804_AddedFunction.Designer.cs" />
+    <Compile Remove="Migrations\20220923094837_AddedBuyProduct.cs" />
+    <Compile Remove="Migrations\20220923094837_AddedBuyProduct.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +38,8 @@
   <ItemGroup>
     <Folder Include="wwwroot\Bikes\Photo\" />
     <Folder Include="wwwroot\companies\Symbol\" />
+    <Folder Include="wwwroot\Events\Photo\" />
+    <Folder Include="wwwroot\Offers\Photo\" />
   </ItemGroup>
 
 </Project>
