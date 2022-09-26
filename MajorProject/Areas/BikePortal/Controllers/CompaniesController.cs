@@ -9,6 +9,7 @@ using MajorProject.Data;
 using MajorProject.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
@@ -18,11 +19,14 @@ namespace MajorProject.Areas.BikePortal.Controllers
         private readonly ApplicationDbContext _context;
 
         private readonly IWebHostEnvironment _WebHostEnvironment;
+        private readonly ILogger<CompaniesController> _logger;
 
-        public CompaniesController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+
+        public CompaniesController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, ILogger<CompaniesController> logger)
         {
             _context = context;
             _WebHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
 
         // GET: BikePortal/Companies
@@ -62,6 +66,14 @@ namespace MajorProject.Areas.BikePortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,CompanyPhoto,CompanyDescription")] Company company)
         {
+            company.CompanyName = company.CompanyName.Trim();
+
+            // Validation Checks - Server-side validation
+            bool duplicateExists = _context.Companies.Any(c => c.CompanyName == company.CompanyName);
+            if (duplicateExists)
+            {
+                ModelState.AddModelError("CompanyName", "Duplicate Company Found!");
+            }
             if (ModelState.IsValid)
             {
                 if(company.CompanyPhoto != null)
@@ -100,7 +112,7 @@ namespace MajorProject.Areas.BikePortal.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CompanyId,CompanyName")] Company company)
+        public async Task<IActionResult> Edit(int id, [Bind("CompanyId,CompanyName,CompanyDescription")] Company company)
         {
             if (id != company.CompanyId)
             {

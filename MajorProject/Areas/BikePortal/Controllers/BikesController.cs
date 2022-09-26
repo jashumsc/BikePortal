@@ -9,6 +9,8 @@ using MajorProject.Data;
 using MajorProject.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.Extensions.Logging;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
@@ -17,11 +19,12 @@ namespace MajorProject.Areas.BikePortal.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _WebHostEnvironment;
-
-        public BikesController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        private readonly ILogger<CompaniesController> _logger;
+        public BikesController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, ILogger<CompaniesController> logger)
         {
             _context = context;
             _WebHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
 
         // GET: BikePortal/Bikes
@@ -83,6 +86,14 @@ namespace MajorProject.Areas.BikePortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BikeId,BikeName,CompanyId,BikePrice,RentPrice,BikeMileage,BikePhoto")] Bike bike)
         {
+            bike.BikeName = bike.BikeName.Trim();
+
+            // Validation Checks - Server-side validation
+            bool duplicateExists = _context.Bikes.Any(b => b.BikeName == bike.BikeName);
+            if (duplicateExists)
+            {
+                ModelState.AddModelError("CompanyName", "Duplicate Company Found!");
+            }
             if (bike.BikePhoto != null)
             {
                 string folder = "Bikes/Photo/";

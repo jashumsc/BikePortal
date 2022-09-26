@@ -1,14 +1,34 @@
 ﻿@model IEnumerable<MajorProject.Models.BuyProduct>
+@using Microsoft.AspNetCore.Identity
+@using MajorProject.Models.Enums
 
+@*----- to find if user is logged in *@
+@inject SignInManager<IdentityUser> _signInManager
+
+@*----- gets the user object to see properties, roles *@
+@inject UserManager<IdentityUser> _userManager
+
+@{
+    bool isLoggedIn = _signInManager.IsSignedIn(this.User);
+
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);         // gets the Logged In User
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
+    }
+}
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Fill your Details</h1>
+@if (isUserAdmin)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -42,11 +62,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BuyId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BuyId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BuyId">Delete</a>
-            </td>
+                @if (isUserAdmin)
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.BuyId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.BuyId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.BuyId">Delete</a>
+                    </td>
+                }
         </tr>
 }
     </tbody>

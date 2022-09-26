@@ -23,7 +23,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Your Purchases</h1>
 
 @if(isUserAdmin){
     <p>
@@ -69,12 +69,14 @@
             <td>
                     @item.CustomerPhone
             </td>
-
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PurchaseId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PurchaseId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PurchaseId">Delete</a>
-            </td>
+                @if (isUserAdmin)
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.PurchaseId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.PurchaseId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.PurchaseId">Delete</a>
+                    </td>
+                }
                 
         </tr>
 }

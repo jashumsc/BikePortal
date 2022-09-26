@@ -18,6 +18,9 @@
                 <input asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
+            
+            <input type="hidden" asp-for="CompanyDescription" />
+            <input type="hidden" asp-for="CompanyPhoto" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

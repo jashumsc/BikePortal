@@ -72,14 +72,25 @@ namespace MajorProject.Areas.BikePortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BuyId,CustomerName,CustomerPhone,ProcudtId,Quantity")] BuyProduct buyProduct)
         {
-            if (ModelState.IsValid)
+            if (buyProduct != null)
             {
-                _context.Add(buyProduct);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(buyProduct);
+                    await _context.SaveChangesAsync();
+                    //return RedirectToAction(nameof(Index));
+                   return RedirectToAction(
+                actionName: "Index",
+               controllerName: "Companies",
+               routeValues: new { area = "BikePortal" });
+                }
+                ViewData["ProcudtId"] = new SelectList(_context.Products, "ProductId", "ProductName", buyProduct.ProcudtId);
+                return View(buyProduct);
             }
-            ViewData["ProcudtId"] = new SelectList(_context.Products, "ProductId", "ProductName", buyProduct.ProcudtId);
-            return View(buyProduct);
+            return RedirectToAction(
+               actionName: "Index",
+               controllerName: "Companies",
+               routeValues: new { area = "BikePortal" });
         }
 
         // GET: BikePortal/BuyProducts/Edit/5

@@ -39,6 +39,7 @@
     <Folder Include="wwwroot\Bikes\Photo\" />
     <Folder Include="wwwroot\companies\Symbol\" />
     <Folder Include="wwwroot\Events\Photo\" />
+    <Folder Include="wwwroot\Products\" />
     <Folder Include="wwwroot\Offers\Photo\" />
   </ItemGroup>
 

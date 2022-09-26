@@ -60,14 +60,25 @@ namespace MajorProject.Areas.BikePortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ParticipateId,ParticipateName,PhoneNumber,EventId")] RegisterEvent registerEvent)
         {
-            if (ModelState.IsValid)
+            if (registerEvent != null)
             {
-                _context.Add(registerEvent);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(registerEvent);
+                    await _context.SaveChangesAsync();
+                    // return RedirectToAction(nameof(Index));
+                    return RedirectToAction(
+                actionName: "Index",
+                controllerName: "Companies",
+                routeValues: new { area = "BikePortal" });
+                }
+                ViewData["EventId"] = new SelectList(_context.UpcomingEvents, "EventId", "EventDescription", registerEvent.EventId);
+                return View(registerEvent);
             }
-            ViewData["EventId"] = new SelectList(_context.UpcomingEvents, "EventId", "EventDescription", registerEvent.EventId);
-            return View(registerEvent);
+            return RedirectToAction(
+               actionName: "Index",
+               controllerName: "Companies",
+               routeValues: new { area = "BikePortal" });
         }
 
         // GET: BikePortal/RegisterEvents/Edit/5

@@ -21,7 +21,7 @@
         isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
     }
 }
-<h1>Index</h1>
+<h1>Upcoming Events</h1>
 
   @if (isUserAdmin)
             {
@@ -135,6 +135,8 @@
                 <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
                 </b>
             }
+            <a class="btn btn-danger" asp-area="BikePortal" asp-controller="RegisterEvents" asp-action="Create" asp-route-filterEventId="@item.EventId">Register Now</a>
+
         </div>
     </div>
     <br />

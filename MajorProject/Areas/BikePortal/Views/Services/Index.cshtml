@@ -21,7 +21,7 @@
     }
 }
 
-<h1>Index</h1>
+<h1>Service Log</h1>
  @if (isUserAdmin)
  {
                 <p>
@@ -70,11 +70,14 @@
                         <p> Service Of @item.BikeNumber is Done</p>
                 }
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ServiceId">Update Status</a> |
-                <a asp-action="Details" asp-route-id="@item.ServiceId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ServiceId">Delete</a>
-            </td>
+                @if (isUserAdmin)
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ServiceId">Update Status</a> |
+                        <a asp-action="Details" asp-route-id="@item.ServiceId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ServiceId">Delete</a>
+                    </td>
+                }
         </tr>
 }
     </tbody>

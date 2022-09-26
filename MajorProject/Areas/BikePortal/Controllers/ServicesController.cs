@@ -57,13 +57,24 @@ namespace MajorProject.Areas.BikePortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ServiceId,CustomerName,CustomerPhone,BikeNumber,ServiceOn,Status")] Service service)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(service);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            if(service != null)
+            { 
+                if (ModelState.IsValid)
+                {
+                    _context.Add(service);
+                    await _context.SaveChangesAsync();
+                    //return RedirectToAction(nameof(Index));
+                    return RedirectToAction(
+                   actionName: "Index",
+                   controllerName: "Companies",
+                   routeValues: new { area = "BikePortal" });
+                }
+                return View(service);
             }
-            return View(service);
+            return RedirectToAction(
+               actionName: "Index",
+               controllerName: "Companies",
+               routeValues: new { area = "BikePortal" });
         }
 
         // GET: BikePortal/Services/Edit/5
