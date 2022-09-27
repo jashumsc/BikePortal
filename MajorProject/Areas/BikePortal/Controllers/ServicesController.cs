@@ -7,10 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MajorProject.Data;
 using MajorProject.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
     [Area("BikePortal")]
+    [Authorize(Roles = "PortalUser")]
+
     public class ServicesController : Controller
     {
         private readonly ApplicationDbContext _context;

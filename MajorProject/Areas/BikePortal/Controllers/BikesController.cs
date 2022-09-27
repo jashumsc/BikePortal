@@ -11,10 +11,13 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
     [Area("BikePortal")]
+   
     public class BikesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -73,6 +76,7 @@ namespace MajorProject.Areas.BikePortal.Controllers
         }
 
         // GET: BikePortal/Bikes/Create
+        [Authorize(Roles = "PortalAdmin")]
         public IActionResult Create()
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName");
@@ -84,6 +88,7 @@ namespace MajorProject.Areas.BikePortal.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "PortalAdmin")]
         public async Task<IActionResult> Create([Bind("BikeId,BikeName,CompanyId,BikePrice,RentPrice,BikeMileage,BikePhoto")] Bike bike)
         {
             bike.BikeName = bike.BikeName.Trim();

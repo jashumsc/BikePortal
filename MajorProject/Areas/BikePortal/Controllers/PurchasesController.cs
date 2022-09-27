@@ -9,13 +9,13 @@ using MajorProject.Data;
 using MajorProject.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Net.NetworkInformation;
-
-
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
     [Area("BikePortal")]
+    [Authorize(Roles = "PortalUser")]
+
     public class PurchasesController : Controller
     {
         private readonly ApplicationDbContext _context;

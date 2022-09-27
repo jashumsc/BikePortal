@@ -10,10 +10,13 @@ using MajorProject.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
     [Area("BikePortal")]
+
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -31,6 +34,15 @@ namespace MajorProject.Areas.BikePortal.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Products.ToListAsync());
+        }
+
+        public async Task<IActionResult> Offer(string filterProductName)
+        {
+            var viewmodel = await _context.Products
+                                         .Where(p => p.ProductName == filterProductName)
+                                         .ToListAsync();
+
+            return View(viewName: "Index", model: viewmodel);
         }
 
         // GET: BikePortal/Products/Details/5
@@ -52,6 +64,8 @@ namespace MajorProject.Areas.BikePortal.Controllers
         }
 
         // GET: BikePortal/Products/Create
+        [Authorize(Roles = "PortalAdmin")]
+
         public IActionResult Create()
         {
             return View();
@@ -62,6 +76,8 @@ namespace MajorProject.Areas.BikePortal.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "PortalAdmin")]
+
         public async Task<IActionResult> Create([Bind("ProductId,ProductName,ProductPrice,ProductPhoto")] Product product)
         {
             product.ProductName = product.ProductName.Trim();

@@ -80,7 +80,7 @@
                     <div class="card-body">
                         <h4 class="card-title">@item.ProductName</h4>
                         <h5> Original Price : @item.ProductPrice.00</h5>
-                        <a asp-area="BikePortal" asp-controller="BuyProducts" asp-action="Create" asp-route-filterProductId="@item.ProductId">Buy Now</a>
+                        <a class="btn btn-danger" asp-area="BikePortal" asp-controller="BuyProducts" asp-action="Create" asp-route-filterProductId="@item.ProductId">Buy Now</a>
 
                         
 

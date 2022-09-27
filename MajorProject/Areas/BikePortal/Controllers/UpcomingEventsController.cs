@@ -9,10 +9,14 @@ using MajorProject.Data;
 using MajorProject.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
     [Area("BikePortal")]
+ 
+
     public class UpcomingEventsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -50,6 +54,8 @@ namespace MajorProject.Areas.BikePortal.Controllers
         }
 
         // GET: BikePortal/UpcomingEvents/Create
+        [Authorize(Roles = "PortalAdmin")]
+
         public IActionResult Create()
         {
             return View();
@@ -60,6 +66,7 @@ namespace MajorProject.Areas.BikePortal.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "PortalAdmin")]
         public async Task<IActionResult> Create([Bind("EventId,EventName,EventDescription,EventDate,EventPhoto")] UpcomingEvent upcomingEvent)
         {
             if (upcomingEvent.EventPhoto != null)

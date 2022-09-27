@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+//Add the assembly attribute to ensure generation of swagger for API
+[assembly:ApiConventionType(typeof(DefaultApiConventions))]
 namespace MajorProject
 {
     public class Startup
@@ -72,6 +76,15 @@ namespace MajorProject
             services
                 .AddSingleton<IEmailSender, MyEmailSenderService>();
 
+            services
+                .AddMvc();
+
+            services.AddSwaggerGen(config => new OpenApiInfo
+            {
+                Version = "V1",
+                Title = "Bikers Bazzar",
+                Description = "Portal for Bikes and services"
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +102,14 @@ namespace MajorProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Add the swagger middleware
+            app.UseSwagger();
+
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "BB Web API");
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

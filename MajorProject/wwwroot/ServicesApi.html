@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Bike Services API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Services Log</h1>
+        <table id="myTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-2">Service ID</th>
+                    <th class="col-2">Customer Name</th>
+                    <th class="col-2">Customer Phone</th>
+                    <th class="col-2">Bike NUmber</th>
+                    <th class="col-2">Service on</th>
+                    <!--<th class="col-2">Service Status</th>-->
+                    <th class="col-2 text-center">
+                        <button class="btn btn-sm btn-secondary" onclick="fAddNew()">Add new</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Service Information</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="txtServiceId" class="control-label">Service ID:</label>
+                            <input id="txtServiceId" name="txtServiceId" class="form-control" readonly="readonly" />
+                        </div>
+                        <div class="form-group">
+                            <label for="txtCustomerName" class="control-label">Customer Name:</label>
+                            <input id="txtCustomerName" name="txtCustomerName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="txtCustomerPhone" class="control-label">Customer Phone:</label>
+                            <input id="txtCustomerPhone" name="txtCustomerPhone" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="txtBikeNumber" class="control-label">Bike Number:</label>
+                            <input id="txtBikeNumber" name="txtBikeNumber" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="txtServiceOn" class="control-label">Service on:</label>
+                            <input id="txtServiceOn" name="txtServiceOn" class="form-control" />
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="fSave()">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        var currentMode = '';
+
+        function fAddNew()
+        {
+
+            currentMode = 'NEW';
+
+            // empty the form fields
+            $('#txtServiceId').val('');
+            $('#txtCustomerName').val('');
+            $('#txtCustomerPhone').val('');
+            $('#txtBikeNumber').val('');
+            $('#txtServiceOn').val('');
+            // popup the modal window
+            $('#myModal').modal();
+        }
+
+        function fSave()
+        {
+
+            if (currentMode === 'NEW') {
+                let data = {
+                    "customerName": $('#txtCustomerName').val(),
+                    "customerPhone": $('#txtCustomerPhone').val(),
+                    "bikeNumber": $('#txtBikeNumber').val(),
+                    "serviceOn": $('#txtServiceOn').val()
+                };
+
+                console.log(data);
+
+                // Save the data using the API
+                const xmlHttp = new XMLHttpRequest();
+                const url = '/api/Services';
+                xmlHttp.open('POST', url);
+                xmlHttp.setRequestHeader('content-type', 'application/json');
+                xmlHttp.send(JSON.stringify(data));
+                xmlHttp.onload = function () {
+                    console.log(xmlHttp.responseText);
+                    let responseObject = JSON.parse(xmlHttp.responseText);
+                    console.log(responseObject.statusCode);
+                    if (responseObject.statusCode == 201) {         // HTTP Response Code 201 "CREATED"
+                        fLoadData();                                // repopulate the HTML Table
+                        alert("Newly inserted Service ID: " + responseObject.value.serviceId);
+                    }
+                };
+            }
+            else if (currentMode === 'EDIT') {
+                let data = {
+                    "serviceId": parseInt($('#txtServiceId').val()),
+                    "customerName": $('#txtCustomerName').val(),
+                    "customerPhone": $('#txtCustomerPhone').val(),
+                    "bikeNumber": $('#txtBikeNumber').val(),
+                    "serviceOn": $('#txtServiceOn').val()
+                };
+
+                const xmlHttp = new XMLHttpRequest();
+                const url = '/api/Services/' + data.serviceId;           // HTTP PUT /api/Categories/2
+                xmlHttp.open('PUT', url);
+                xmlHttp.setRequestHeader('content-type', 'application/json');
+                xmlHttp.send(JSON.stringify(data));
+                xmlHttp.onload = function () {
+                    console.log(xmlHttp.responseText);                       // nothing is returned from the API
+                    if (xmlHttp.status == 204)                               // HTTP RESPONSE 204 "No Content"
+                    {
+                        alert('updated successfully!');
+                        fLoadData();            // reload the HTML Table.
+                    }
+                };
+            }
+
+
+        }
+
+
+        
+
+     
+        function fDelete(serviceIdToDelete) {
+
+            if (!confirm("Are you sure you want to delete?")) {
+                return;         // exit the function, since user does not want to delete.
+            }
+
+            // delete the selected category.
+            let data = {
+                "id": serviceIdToDelete
+            };
+            const xmlHttp = new XMLHttpRequest();
+            const url = '/api/Services/' + serviceIdToDelete;        // HTTP REST API DELETE : /api/Categories/2
+            xmlHttp.open('DELETE', url);
+            xmlHttp.setRequestHeader('content-type', 'application/json');
+            xmlHttp.send(JSON.stringify(data));
+            xmlHttp.onload = function () {
+                let responseObject = JSON.parse(xmlHttp.responseText);
+                alert("Successfully Deleted the service ID: " + responseObject.serviceId);
+                fLoadData();
+            };
+        }
+
+        function fEdit(serviceIdToEdit) {
+
+            currentMode = 'EDIT';
+
+            let data = {
+                "id": serviceIdToEdit
+            };
+            const xmlHttp = new XMLHttpRequest();
+            const url = '/api/Services/' + serviceIdToEdit;        // HTTP REST API GET : /api/Categories/2
+            xmlHttp.open('GET', url);
+            xmlHttp.setRequestHeader('content-type', 'application/json');
+            xmlHttp.send(JSON.stringify(data));
+            xmlHttp.onload = function () {
+                let responseObject = JSON.parse(xmlHttp.responseText);
+
+                // populate the input fields in the modal window
+                $('#txtServiceId').val(responseObject.serviceId);
+                $('#txtCustomerName').val(responseObject.customerName);
+                $('#txtCustomerPhone').val(responseObject.customerPhone);
+                $('#txtBikeNumber').val(responseObject.bikeNumber);
+                $('#txtServiceOn').val(responseObject.serviceOn);
+                $('#myModal').modal("show");
+            }
+        }
+
+        function fDisplayData(theJsonData) {
+
+            let strHTML = '';
+
+            $.each(theJsonData, function (idx, elem) {
+                console.log(elem);               // for debugging
+
+                strHTML
+                    += '<tr>'
+                    + '<td>' + elem.serviceId + '</td>'
+                    + '<td>' + elem.customerName + '</td>'
+                    + '<td>' + elem.customerPhone + '</td>'
+                    + '<td>' + elem.bikeNumber + '</td>'
+                    + '<td>' + elem.serviceOn + '</td>'
+                    /*+ '<td>' + elem.status + '</td>'*/
+                    + '<td class="text-center">'
+                    + '<button type="button" class="btn btn-secondary btn-sm" onclick="fEdit(' + elem.serviceId + ')">Edit</button>'
+                    + '&nbsp;'
+                    + '<button type="button" class="btn btn-secondary btn-sm" onclick="fDelete(' + elem.serviceId + ')">Delete</button>'
+                    + '</td>'
+                    + '</tr>';
+            });
+
+            // Remove all existing rows in the Table
+            $('#myTable tbody tr').remove();
+
+            // Add the generated table row contents.
+            $('#myTable tbody').append(strHTML);
+        }
+
+        function fLoadData() {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let theData = JSON.parse(this.responseText);
+                    console.log(theData);                           // for debugging
+                    //alert("Received the data from the APi");     // for debugging
+                    fDisplayData(theData);
+                }
+            };
+            xmlHttp.open("GET", "/api/services");
+            xmlHttp.send();
+        }
+
+        $(document).ready(() => {
+            fLoadData();
+        });
+        
+    </script>
+</body>
+</html>

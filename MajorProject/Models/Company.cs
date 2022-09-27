@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,6 @@ namespace MajorProject.Models
         [NotMapped]
         public IFormFile CompanyPhoto { get; set; }
 
+        public ICollection<Bike> Bikes { get; set; } 
     }
 }

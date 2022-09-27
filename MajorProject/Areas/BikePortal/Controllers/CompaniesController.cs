@@ -10,10 +10,13 @@ using MajorProject.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MajorProject.Areas.BikePortal.Controllers
 {
     [Area("BikePortal")]
+
     public class CompaniesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -54,6 +57,8 @@ namespace MajorProject.Areas.BikePortal.Controllers
         }
 
         // GET: BikePortal/Companies/Create
+        [Authorize(Roles = "PortalAdmin")]
+
         public IActionResult Create()
         {
             return View();
@@ -64,6 +69,8 @@ namespace MajorProject.Areas.BikePortal.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "PortalAdmin")]
+
         public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,CompanyPhoto,CompanyDescription")] Company company)
         {
             company.CompanyName = company.CompanyName.Trim();
