@@ -29,71 +29,6 @@
         <a asp-action="Create">Create New</a>
     </p>
 }
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                Image Logo
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
-            </td>
-            <td>
-                <img src="@item.CompanyImage" class="img-thumbnail" width="100" height="100">
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CompanyId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CompanyId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
-
-@*<div class="row">
-@foreach (var item in Model)
-    {
-    <div class="card-columns">
-
-        <div class="container row">
-
-            <div class="card" style="width:400px">
-                <img class="card-img-top" src="@item.CompanyImage" alt="Card image" width="200" height="200">
-                <div class="card-body col-6">
-                    <h4 class="card-title">@item.CompanyName</h4>
-                        @if (isUserAdmin)
-                        {
-                            <a asp-action="Edit" asp-route-id="@item.CompanyId">Edit |</a> 
-                            <a asp-action="Details" asp-route-id="@item.CompanyId">Details |</a> 
-                            <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
-                   
-
-                           
-                        }
-                             <a asp-area="BikePortal" asp-controller="Bikes"
-                       asp-action="GetBikesOfCompany"
-                       asp-route-filterCompanyId="@item.CompanyId">See Bikes</a>
-                </div>
-                
-            </div>
-                <div class="Col-6">
-                    @item.CompanyName
-                </div>
-        </div>
-        <br />
-    </div>
- }
-</div>*@
 
 @foreach (var item in Model)
     {
@@ -107,14 +42,14 @@
             <p>@item.CompanyDescription</p>
             @if (isUserAdmin)
             {
-                <a asp-action="Edit" asp-route-id="@item.CompanyId">Edit |</a>
+                
                 <a asp-action="Details" asp-route-id="@item.CompanyId">Details |</a>
                 <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
 
 
 
             }
-            <a class="btn btn-sm" asp-area="BikePortal" asp-controller="Bikes"
+            <a class="btn btn-sm btn-success" asp-area="BikePortal" asp-controller="Bikes"
            asp-action="GetBikesOfCompany"
            asp-route-filterCompanyId="@item.CompanyId">See Bikes</a>
             </div>

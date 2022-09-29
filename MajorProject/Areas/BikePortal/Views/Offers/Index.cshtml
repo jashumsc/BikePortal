@@ -26,51 +26,6 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BikeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BikePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OfferPrice)
-            </th>
-            <th>
-                BikeImage
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BikeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BikePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfferPrice)
-            </td>
-            <td>
-                    <img src="@item.BikeImage" alt="Card image" width="200" height="200">
-
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.OfferId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.OfferId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.OfferId">Delete</a> |
-                <a asp-area="BikePortal" asp-controller="Purchases" asp-action="Create" asp-route-filterBikeName="@item.BikeName">Buy Now</a>
-
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
 
 
 <div class="container">
@@ -92,8 +47,7 @@
                        
                         @if (isUserAdmin)
                         {
-                            <a asp-action="Edit" asp-route-id="@item.OfferId">Edit</a>
- 
+                            
                             <a asp-action = "Details" asp-route-id = "@item.OfferId" > Details </a> 
                             <a asp-action = "Delete" asp-route-id = "@item.OfferId" > Delete </a>
                         }

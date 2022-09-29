@@ -23,7 +23,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Booing for Rent</h1>
+<h1>Booking for Rent</h1>
 
 
 @if (isUserAdmin)
@@ -45,6 +45,9 @@
                 @Html.DisplayNameFor(model => model.RentDate)
             </th>
             <th>
+                Rent Amount
+            </th>
+            <th>
                 Phone Number
             </th>
             <th></th>
@@ -61,6 +64,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RentDate)
+            </td>
+            <td>
+                @item.Bike.RentPrice
             </td>
                 <td>
                     @item.CustomerPhone

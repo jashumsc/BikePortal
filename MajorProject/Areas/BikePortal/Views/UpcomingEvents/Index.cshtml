@@ -21,7 +21,8 @@
         isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
     }
 }
-<h1>Upcoming Events</h1>
+
+
 
   @if (isUserAdmin)
             {
@@ -72,53 +73,9 @@
         transform: translate(-50%, -50%);
     }
 </style>
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EventName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventDate)
-            </th>
-            <th>
-                Event Poster
-            </th>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDate)
-            </td>
-            <td>
-                            <img  src="@item.EventImage" alt="Card image" width="200" height="200">
 
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
-                <a asp-area="BikePortal" asp-controller="RegisterEvents" asp-action="Create" asp-route-filterEventId="@item.EventId">Register Now</a>
-
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
-
+<h1><p class="text-success">Upcoming Events</p></h1>
 @foreach (var item in Model) 
 {
     <div class="container">
@@ -130,7 +87,7 @@
             @if (isUserAdmin)
             {
                 <b>
-                    <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                  
                 <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
                 </b>

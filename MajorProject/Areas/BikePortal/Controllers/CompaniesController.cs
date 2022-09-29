@@ -107,6 +107,7 @@ namespace MajorProject.Areas.BikePortal.Controllers
             }
 
             var company = await _context.Companies.FindAsync(id);
+
             if (company == null)
             {
                 return NotFound();

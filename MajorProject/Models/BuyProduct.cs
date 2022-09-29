@@ -13,6 +13,7 @@ namespace MajorProject.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
 
 
@@ -28,6 +29,7 @@ namespace MajorProject.Models
 
 
         [Required]
+        [Display(Name = "Product Name")]
         public int ProcudtId { get; set; }
 
         [System.Text.Json.Serialization.JsonIgnore]

@@ -14,12 +14,18 @@ namespace MajorProject.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Bike Name")]
+
         public string BikeName { get; set; }
 
         [Required]
+        [Display(Name = "Bike Price")]
+
         public int BikePrice { get; set; }
 
         [Required]
+        [Display(Name = "Offer Price")]
+
         public int OfferPrice { get; set; }
 
 

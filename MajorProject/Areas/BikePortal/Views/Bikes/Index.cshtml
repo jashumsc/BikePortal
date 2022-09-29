@@ -30,128 +30,13 @@
         <a asp-action="Create">Create New</a>
     </p>
  }
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Bike Image
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BikeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BikePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RentPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BikeMileage)
-            </th>
-           
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <img src="@item.BikeImage" class="img-thumbnail" width="100" height="100">
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BikeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BikePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RentPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BikeMileage)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BikeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BikeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BikeId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-*@
-
-
-@*@foreach (var item in Model)
-    {
-        <div class="container-sm">
-   
-            <div class="card col" style="width:400px">
-                <img class="card-img-top" src="@item.BikeImage" alt="Card image" width="200" height="200">
-                <div class="card-body">
-                        <h4 class="card-title">@item.BikeName</h4>
-                        <h5> To purchase : @item.BikePrice.00</h5>
-                        <h5> To Rent : @item.RentPrice.00 /Day</h5>
-                    <p class="card-text">The @item.BikeName gives a mileage around @item.BikeMileage Kmpl </p>
-                    @if(isUserAdmin){ 
-                        <a asp-action="Edit" asp-route-id="@item.BikeId">Edit |</a> 
-                        <a asp-action="Details" asp-route-id="@item.BikeId">Details |</a> 
-                        <a asp-action="Delete" asp-route-id="@item.BikeId">Delete</a>
-                    }
-                    <br>
-                        <a asp-area="BikePortal" asp-controller="Purchases"
-                       asp-action="Create"
-                       asp-route-filterBikeId="@item.BikeId">Book Now</a>
-                
-                        <a class="btn btn-warning" asp-area="BikePortal" asp-controller="Rents"
-                       asp-action="Create"
-                       asp-route-filterBikeId="@item.BikeId">Book To Rent</a>
-               </div>
-            </div>
-        </div>
-        <br />
-    }*@
-
-
-@*@foreach (var item in Model)
-    {
-        <div class="row border-dark">
-            <div class="col-4 text-center border-0">
-                <h4>@item.BikeName</h4>
-                <h5> To purchase : @item.BikePrice.00</h5>
-                <h5> To Rent : @item.RentPrice.00 /Day</h5>
-                @if (isUserAdmin)
-                {
-                    <a asp-action="Edit" asp-route-id="@item.BikeId">Edit |</a>
-                    <a asp-action="Details" asp-route-id="@item.BikeId">Details |</a>
-                    <a asp-action="Delete" asp-route-id="@item.BikeId">Delete</a>
-                }
-                <br>
-                        <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Purchases"
-                       asp-action="Create"
-                       asp-route-filterBikeId="@item.BikeId">Book To Buy</a>
-
-                        <a class="btn btn-warning" asp-area="BikePortal" asp-controller="Rents"
-                       asp-action="Create"
-                       asp-route-filterBikeId="@item.BikeId">Book To Rent</a>
-            </div>
-
-            <div class ="col-4">
-            <img class="card-img-top" src="@item.BikeImage" alt="Card image" width="50" height="200">
-
-            </div>
-        </div>
-    <hr>
+<style>
+    body {
+        background-image: url("~/lib/back3.jpg");
+        /*background-repeat: no-repeat;*/
+        background-size: contain;
     }
-*@
-
+</style>
 
 <div class="container">
     <div class="row gy-3 my-3">
@@ -162,8 +47,8 @@
                     <img class="card-img-top" src="@item.BikeImage" alt="Card image" width="50" height="200">
                 <div class="card-body">
                     <h4 class="card-title">@item.BikeName</h4>
-                        <h5> To purchase : @item.BikePrice.00</h5>
-                        <h5> To Rent : @item.RentPrice.00 /Day</h5>
+                        <h5> To purchase : ₹ @item.BikePrice.00</h5>
+                        <h5> To Rent : ₹ @item.RentPrice.00 /Day</h5>
                          <a class="btn btn-danger" asp-area="BikePortal" asp-controller="Purchases"
                        asp-action="Create"
                        asp-route-filterBikeId="@item.BikeId">Book To Buy</a>
@@ -172,7 +57,7 @@
                        asp-route-filterBikeId="@item.BikeId">Book To Rent</a>
                         @if (isUserAdmin)
                         {
-                            <a asp-action="Edit" asp-route-id="@item.BikeId">Edit |</a>
+                            
                             <a asp-action="Details" asp-route-id="@item.BikeId">Details |</a>
                             <a asp-action="Delete" asp-route-id="@item.BikeId">Delete</a>
                         }

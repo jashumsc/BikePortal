@@ -3,6 +3,7 @@
 using MajorProject.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace MajorProject.Data
 {
@@ -33,5 +34,6 @@ namespace MajorProject.Data
 
         public DbSet<RegisterEvent> EventParticipants { get; set; }
 
+      
     }
 }

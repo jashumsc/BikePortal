@@ -49,20 +49,25 @@
                             <a class="nav-link  text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
 
+                        @*Providing access only to admin*@
+
                         @if (isLoggedIn){
                             @if(isUserAdmin){
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Admin
+                                        Manage
                                     </a>
 
                                     <div class="dropdown-menu">
                                
                                                 <a class="dropdown-item"
                                            asp-area="Bikeportal" asp-controller="Companies" asp-action="Index">Companies</a>
-                                   
-                                            <a class="dropdown-item"
-                                           asp-area="Bikeportal" asp-controller="Bikes" asp-action="Index">Bikes</a>
+
+                                        
+                                                <a class="dropdown-item"
+                                                asp-area="Bikeportal" asp-controller="Bikes" asp-action="Index">Bikes</a>
+                                          
+
                                    
                                             <a class="dropdown-item"
                                              asp-area="Bikeportal" asp-controller="Offers" asp-action="Index">Offers</a>
@@ -79,8 +84,31 @@
                                              <a class="dropdown-item" href="~/ServicesApi.html">Services API</a>
                                      </div>
                                 </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Orders Details
+                                    </a>
+
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                            asp-area="Bikeportal" asp-controller="Purchases" asp-action="Index">Bikes Purchase Orders</a>
+
+                                            <a class="dropdown-item"
+                                       asp-area="Bikeportal" asp-controller="Rents" asp-action="Index">Bike Rent Bookins</a>
+
+                                        <a class="dropdown-item"
+                                        asp-area="Bikeportal" asp-controller="BuyProducts" asp-action="Index">Spare Orders</a>
+
+                                            <a class="dropdown-item"
+                                       asp-area="Bikeportal" asp-controller="RegisterEvents" asp-action="Index">Registered For Events</a>
+
+                                    </div>
+                                </li>
                             }
                         }
+
+                        @*Providing access only to User*@
+
                         @if (isLoggedIn)
                         {
                             @if(!isUserAdmin){
@@ -131,7 +159,7 @@
                                          asp-area="Bikeportal" asp-controller="BuyProducts" asp-action="GetProducts" asp-route-filterPhn="@user.PhoneNumber">Products order Details</a>
 
                                           <a class="dropdown-item"
-                                         asp-area="Bikeportal" asp-controller="Services" asp-action="Index" asp-route-filterPhn="@user.PhoneNumber">Service status</a>
+                                   asp-area="Bikeportal" asp-controller="Services" asp-action="GetServices" asp-route-filterPhn="@user.PhoneNumber">Service status</a>
 
                                     </div>
                                 </li>

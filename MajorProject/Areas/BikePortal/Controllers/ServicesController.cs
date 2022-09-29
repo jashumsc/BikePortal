@@ -48,6 +48,16 @@ namespace MajorProject.Areas.BikePortal.Controllers
             return View(service);
         }
 
+        public async Task<IActionResult> GetServices(string filterPhn)
+        {
+
+            var viewmodel = await _context.Services
+                                          .Where(s => s.CustomerPhone == filterPhn)
+                                          .ToListAsync();
+
+            return View(viewName: "Index", model: viewmodel);
+        }
+
         // GET: BikePortal/Services/Create
         public IActionResult Create()
         {

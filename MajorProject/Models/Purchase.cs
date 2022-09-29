@@ -15,6 +15,7 @@ namespace MajorProject.Models
         public int PurchaseId { get; set; }
 
         [Required]
+        [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
 
         [DataType(DataType.PhoneNumber)]
@@ -29,6 +30,7 @@ namespace MajorProject.Models
 
 
         [Required]
+        [Display(Name = "Bike Name")]
         public int BikeId { get; set; }
 
         [System.Text.Json.Serialization.JsonIgnore]

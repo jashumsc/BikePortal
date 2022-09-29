@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MajorProject.Data;
 using MajorProject.Models;
+using Microsoft.Extensions.Logging;
 
 namespace MajorProject.Controllers
 {
@@ -15,31 +16,62 @@ namespace MajorProject.Controllers
     public class ServicesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<ServicesController> _logger;
 
-        public ServicesController(ApplicationDbContext context)
+        public ServicesController(ApplicationDbContext context,ILogger<ServicesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Services
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Service>>> GetServices()
+        public async Task<IActionResult> GetServices()
         {
-            return await _context.Services.ToListAsync();
+            
+
+            try
+            {
+                var services = await _context.Services
+                                     .ToListAsync();
+
+                // Check if data exists in the Database
+                if (services == null)
+                {
+                    return NotFound();          // RETURN: No data was found            HTTP 404
+                }
+                return Ok(services);          // RETURN: OkObjectResult - good result HTTP 200
+            }
+            catch (Exception exp)
+            {
+                return BadRequest(exp.Message); // RETURN: BadResult                    HTTP 400
+            }
         }
 
         // GET: api/Services/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Service>> GetService(int id)
+        public async Task<IActionResult> GetService(int? id)
         {
-            var service = await _context.Services.FindAsync(id);
-
-            if (service == null)
+            if (!id.HasValue)
             {
-                return NotFound();
+                return BadRequest();
             }
+            try
+            {
 
-            return service;
+                var service = await _context.Services.FindAsync(id);
+
+                if (service == null)
+                {
+                    return NotFound();          // RETURN: No data was found            HTTP 404
+                }
+
+                return Ok(service);             // RETURN: OkObjectResult - good result HTTP 200
+            }
+            catch (Exception exp)
+            {
+                return BadRequest(exp.Message);
+            }
         }
 
         // PUT: api/Services/5
@@ -52,63 +84,83 @@ namespace MajorProject.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(service).State = EntityState.Modified;
-
-            try
+            if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ServiceExists(id))
+                try
                 {
-                    return NotFound();
+                    _context.Entry(service).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    return NoContent();
                 }
-                else
+                catch (DbUpdateConcurrencyException exp)
                 {
-                    throw;
+                    if (!ServiceExists(id))
+                    {
+                        return NotFound();      // RETURN: No data was found            HTTP 404
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("PUT", exp.Message);
+                    }
                 }
             }
 
-            return NoContent();
+            return BadRequest(ModelState);
         }
 
         // POST: api/Services
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Service>> PostService(Service service)
+        public async Task<IActionResult> PostService(Service service)
         {
-            try
-            { 
-                _context.Services.Add(service);
-                await _context.SaveChangesAsync();
-                var result = CreatedAtAction("GetService", new { id = service.ServiceId }, service);
-                return Ok(result);
-                
-            }
-            catch(System.Exception exp)
+            if (ModelState.IsValid)
             {
-               ModelState.TryAddModelError("POST",exp.Message);
-                return BadRequest(ModelState);
+                try
+                {
+                    _context.Services.Add(service);
+                    await _context.SaveChangesAsync();
+                    var result = CreatedAtAction("GetService", new { id = service.ServiceId }, service);
+                    return Ok(result);                                       // RETURN: OkObjectResult - good result HTTP 200
+
+                }
+                catch (System.Exception exp)
+                {
+                    ModelState.TryAddModelError("POST", exp.Message);
+                   
+                }
             }
+            return BadRequest(ModelState);
         }
 
         // DELETE: api/Services/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Service>> DeleteService(int id)
+        public async Task<IActionResult> DeleteService(int? id)
         {
-            var service = await _context.Services.FindAsync(id);
-            if (service == null)
+            if (!id.HasValue) 
             {
-                return NotFound();
+                return BadRequest();
             }
+            try
+            {
 
-            _context.Services.Remove(service);
-            await _context.SaveChangesAsync();
 
-            return service;
+                var service = await _context.Services.FindAsync(id);
+                if (service == null)
+                {
+                    return NotFound();      // RETURN: No data was found            HTTP 404
+                }
+
+                _context.Services.Remove(service);
+                await _context.SaveChangesAsync();
+
+                return Ok(service);                      // RETURN: OkObjectResult - good result HTTP 200
+            }
+            catch(System.Exception exp)
+            {
+                ModelState.AddModelError("DELETE", exp.Message);
+                return BadRequest(ModelState);
+            }
         }
 
         private bool ServiceExists(int id)

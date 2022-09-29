@@ -16,6 +16,7 @@ namespace MajorProject.Models
 
 
         [Required]
+        [Display(Name = "Event Name")]
         [StringLength(50)]
         public string EventName { get; set; }
 
@@ -23,11 +24,13 @@ namespace MajorProject.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Description")]
         public string EventDescription { get; set; }
 
        
 
         [Required]
+        [Display(Name = "Event On")]
         [GreateDate]
 
         public DateTime EventDate { get; set; }

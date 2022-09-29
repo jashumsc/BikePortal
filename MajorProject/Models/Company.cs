@@ -12,15 +12,22 @@ namespace MajorProject.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompanyId { get; set; }
 
-
+        //Stores the name of company
         [Required]
         [Display(Name ="Company Name")]
         [StringLength(50)]
         public string CompanyName { get; set; }
 
+        //Stores the Description of company
+
         [Required]
         [StringLength(2000)]
+        [Display(Name = "Company Description")]
+
         public string CompanyDescription { get; set; }
+
+        //Stores the Logo of company
+
         public string CompanyImage { get; set; }
 
         [Required]

@@ -12,7 +12,8 @@ namespace MajorProject.Models
         public int ServiceId { get; set; }
 
         [Required]
-        [StringLength(50)]  
+        [StringLength(50)]
+        [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
 
         [DataType(DataType.PhoneNumber)]
@@ -25,10 +26,12 @@ namespace MajorProject.Models
 
 
         [Required]
+        [Display(Name = "Bike Number")]
         public string BikeNumber { get; set; }
 
 
         [Required]
+        [Display(Name = "Service on")]
         public string ServiceOn { get; set; }
 
 

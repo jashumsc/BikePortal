@@ -22,7 +22,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Fill your Details</h1>
+<h1>Ordered Spares</h1>
 @if (isUserAdmin)
 {
     <p>
@@ -44,6 +44,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
+            <th>
+                Total Price
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -61,6 +64,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @(@item.Quantity*@item.Product.ProductPrice).00
             </td>
                 @if (isUserAdmin)
                 {

@@ -3,40 +3,66 @@
 @{
     ViewData["Title"] = "Create";
 }
+@using Microsoft.AspNetCore.Identity
+@using MajorProject.Models.Enums
 
-<h1>Create</h1>
+@*----- to find if user is logged in *@
+@inject SignInManager<IdentityUser> _signInManager
 
-<h4>RegisterEvent</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ParticipateName" class="control-label"></label>
-                <input asp-for="ParticipateName" class="form-control" />
-                <span asp-validation-for="ParticipateName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EventId" class="control-label"></label>
-                <select asp-for="EventId" class ="form-control" asp-items="ViewBag.EventId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+@*----- gets the user object to see properties, roles *@
+@inject UserManager<IdentityUser> _userManager
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@{
+    bool isLoggedIn = _signInManager.IsSignedIn(this.User);
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);         // gets the Logged In User
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.PortalAdmin.ToString());
+    }
 }
+@{
+    ViewData["Title"] = "Create";
+}
+
+@if (user.PhoneNumber == null)
+{
+    <p>PLease Update profile</p>
+    <a href="https://localhost:44335/Identity/Account/Manage">Update Here</a>
+}
+else{
+    <p><h3>Warm Welcome to All Participants</h3></p>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ParticipateName" class="control-label"></label>
+                    <input asp-for="ParticipateName" class="form-control" />
+                    <span asp-validation-for="ParticipateName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EventId" class="control-label"></label>
+                    <select asp-for="EventId" class ="form-control" asp-items="ViewBag.EventId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

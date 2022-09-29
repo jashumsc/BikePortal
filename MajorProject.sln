@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MajorProject", "MajorProject\MajorProject.csproj", "{2966F674-46D8-412C-92E9-9D0A86007FFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MajorProject", "MajorProject\MajorProject.csproj", "{2966F674-46D8-412C-92E9-9D0A86007FFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikersBazzar.xUnitTests", "BikersBazzar.xUnitTests\BikersBazzar.xUnitTests.csproj", "{5AD55375-31EA-4FF3-B512-28203BBC4BBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2966F674-46D8-412C-92E9-9D0A86007FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2966F674-46D8-412C-92E9-9D0A86007FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2966F674-46D8-412C-92E9-9D0A86007FFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AD55375-31EA-4FF3-B512-28203BBC4BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AD55375-31EA-4FF3-B512-28203BBC4BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AD55375-31EA-4FF3-B512-28203BBC4BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AD55375-31EA-4FF3-B512-28203BBC4BBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

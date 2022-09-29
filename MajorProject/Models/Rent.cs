@@ -14,6 +14,7 @@ namespace MajorProject.Models
         public int RentId { get; set; }
 
         [Required]
+        [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
 
         [DataType(DataType.PhoneNumber)]
@@ -29,6 +30,7 @@ namespace MajorProject.Models
 
 
         [Required]
+        [Display(Name = "Bike Name")]
         public int BikeId { get; set; }
 
         [System.Text.Json.Serialization.JsonIgnore]
@@ -39,6 +41,7 @@ namespace MajorProject.Models
         #endregion
 
         [Required]
+        [Display(Name = "Rent on")]
         [GreateDate]
 
         public DateTime RentDate { get; set; }
