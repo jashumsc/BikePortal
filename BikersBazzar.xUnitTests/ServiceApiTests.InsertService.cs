@@ -12,6 +12,17 @@ using Xunit;
 
 namespace BikersBazzar.xUnitTests
 {
+    /// <remarks>
+    ///     Bad insertion data scenarios:
+    ///     - Name is NULL
+    ///     - Name is EMPTY STRING
+    ///     - Name contains more characters than what is allowed
+    ///     - NULL Service object
+    ///     
+    ///     LIMITATIONS OF WORKING WITH InMemory Database
+    ///     - Relationships between Tables are not supported.
+    ///     - EF Core DataAnnotation Validations are not supported.
+    /// </remarks>
     public partial class ServiceApiTests
     {
         [Fact]

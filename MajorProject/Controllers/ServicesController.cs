@@ -11,6 +11,28 @@ using Microsoft.Extensions.Logging;
 
 namespace MajorProject.Controllers
 {
+    /// <remarks>
+    ///     In an ASP.NET Core REST API, there is no need to explicitly check if the model state is Valid. 
+    ///     Since the controller class is decorated with the [ApiController] attribute, 
+    ///     it takes care of checking if the model state is valid 
+    ///     and automatically returns 400 response along the validation errors.
+    ///     Example response:
+    ///         {
+    ///             "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+    ///             "title": "One or more validation errors occurred.",
+    ///             "status": 400,
+    ///             "traceId": "|65b7c07c-4323622998dd3b3a.",
+    ///             "errors": {
+    ///                 "Email": [
+    ///                     "The Email field is required."
+    ///                 ],
+    ///                 "FirstName": [
+    ///                     "The field FirstName must be a string with a minimum length of 2 and a maximum length of 100."
+    ///                 ]
+    ///             }
+    ///         }
+    /// </remarks>
+
     [Route("api/[controller]")]
     [ApiController]
     public class ServicesController : ControllerBase

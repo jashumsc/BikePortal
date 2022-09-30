@@ -12,6 +12,14 @@ using Xunit;
 
 namespace BikersBazzar.xUnitTests
 {
+    /// <summary>
+    /// <GetServices>
+    ///     Recieves the Http response whether its providing Ok result
+    /// </GetServices>
+    /// <CheckCorrectResult>
+    ///     Check the data ariived are correct
+    /// </CheckCorrectResult>
+    /// </summary>
     public partial class ServiceApiTests
     {
         [Fact]
